@@ -8,6 +8,11 @@ venv/
 env/
 .venv/
 
+# TypeScript / Node
+node_modules/
+dist/
+*.log
+
 # IDE
 .vscode/
 .idea/
@@ -19,6 +24,6 @@ env/
 Thumbs.db
 
 # 项目
-*.log
 *.tmp
 *.cache
+output/
