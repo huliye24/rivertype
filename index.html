@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>RIVERTYPE - 未来出版引擎</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #d1d1d1;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 顶部工具栏 */
+        header {
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .brand {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+        }
+
+        .logo {
+            color: #a30a24;
+            font-family: "Georgia", serif;
+            font-size: 24px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .slogan {
+            font-size: 12px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        select {
+            background: #1a1a1a;
+            color: #eee;
+            border: 1px solid #333;
+            padding: 4px 8px;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #eee;
+            padding: 5px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            border-color: #888;
+            background: #1a1a1a;
+        }
+
+        .btn-primary {
+            background: transparent;
+            border-color: #a30a24;
+            color: #a30a24;
+        }
+
+        .btn-primary:hover {
+            background: #a30a24;
+            color: #fff;
+        }
+
+        /* 编辑器主区域 */
+        main {
+            flex: 1;
+            display: flex;
+            gap: 1px;
+            background-color: #1a1a1a; /* 缝隙色 */
+            padding: 1px 0;
+        }
+
+        .pane {
+            flex: 1;
+            background-color: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pane-header {
+            padding: 10px 20px;
+            font-size: 11px;
+            color: #444;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #111;
+        }
+
+        .pane-header span.hint {
+            color: #333;
+        }
+
+        /* 文本区域自定义滚动条 */
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #999;
+            padding: 20px;
+            font-family: "Fira Code", "Consolas", monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+        }
+
+        textarea::-webkit-scrollbar { width: 4px; }
+        textarea::-webkit-scrollbar-thumb { background: #222; }
+
+        /* 预览区域占位 */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-align: center;
+            line-height: 2;
+        }
+
+        .preview-area p {
+            font-size: 14px;
+        }
+
+        .cursor {
+            color: #a30a24;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <h1 class="logo">RIVERTYPE</h1>
+            <span class="slogan">未来出版引擎</span>
+        </div>
+        
+        <div class="toolbar-right">
+            <button class="btn">新建</button>
+            <button class="btn">打开</button>
+            <button class="btn">保存</button>
+            <button class="btn btn-primary">渲染预览</button>
+            <button class="btn btn-primary">导出 PDF</button>
+            <button class="btn">导出 HTML</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="pane">
+            <div class="pane-header">
+                MARKDOWN 编辑器
+                <span class="hint">支持标准 Markdown 语法</span>
+            </div>
+            <textarea placeholder="在此输入内容..."></textarea>
+        </section>
+
+        <section class="pane">
+            <div class="pane-header">实时预览</div>
+            <div class="preview-area">
+                <p>点击「渲染预览」生成预览</p>
+                <p>或使用 <span class="shortcut">Ctrl+R</span> 快捷键</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
