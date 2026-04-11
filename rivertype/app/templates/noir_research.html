@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+
+    {# Google Fonts #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        {{ css_variables }}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-font_family_main, 'IBM Plex Serif', Georgia, serif);
+            background-color: var(--color-background, #1a1a1a);
+            color: var(--color-text_primary, #e0e0e0);
+            line-height: var(--font-line_height, 1.85);
+        }
+
+        .document-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-page_padding, 72px);
+            min-height: 100vh;
+        }
+
+        /* 标题样式 */
+        .heading {
+            font-family: var(--font-font_family_display, 'IBM Plex Sans', sans-serif);
+            margin-top: var(--spacing-heading_margin, 48px);
+            margin-bottom: calc(var(--spacing-heading_margin, 48px) * 0.5);
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .heading-1 {
+            font-size: 1.8rem;
+            color: var(--color-text_primary, #e0e0e0);
+            letter-spacing: 0.02em;
+        }
+
+        .heading-1.main-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent, #607d8b);
+            font-family: var(--font-font_family_display, 'IBM Plex Sans', sans-serif);
+            border-bottom: 1px solid var(--color-border, #333333);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .heading-2 {
+            font-size: 1.4rem;
+            margin-top: 2.5rem;
+            color: var(--color-text_primary, #e0e0e0);
+            border-bottom: 1px solid var(--color-border, #333333);
+            padding-bottom: 0.5rem;
+        }
+
+        .heading-3 {
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            color: var(--color-text_secondary, #a0a0a0);
+        }
+
+        /* 段落样式 */
+        .paragraph {
+            margin-bottom: var(--spacing-paragraph_margin, 28px);
+            text-align: justify;
+        }
+
+        .paragraph.important {
+            color: var(--color-text_primary, #e0e0e0);
+            font-weight: 500;
+        }
+
+        /* 引用块样式 */
+        .quote {
+            background: var(--color-quote_background, #202020);
+            border-left: 3px solid var(--color-accent, #607d8b);
+            border-radius: 0;
+            padding: var(--spacing-quote_padding, 32px);
+            margin: var(--spacing-section_margin, 48px) 0;
+            position: relative;
+        }
+
+        .quote-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .quote-content {
+            font-style: italic;
+            color: var(--color-text_secondary, #a0a0a0);
+            font-size: 1em;
+        }
+
+        /* 代码块样式 */
+        .code-block {
+            background: var(--color-background_secondary, #242424);
+            border: 1px solid var(--color-border, #333333);
+            border-radius: 0;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: var(--font-font_family_code, 'JetBrains Mono', monospace);
+            font-size: 0.85rem;
+            color: var(--color-text_primary, #e0e0e0);
+        }
+
+        /* 列表样式 */
+        .list {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .list li {
+            margin-bottom: 0.75rem;
+            color: var(--color-text_primary, #e0e0e0);
+        }
+
+        .list li::marker {
+            color: var(--color-accent, #607d8b);
+        }
+
+        /* 分隔线 */
+        .divider {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        /* 标题装饰 */
+        .title-decorator {
+            margin-bottom: 2rem;
+        }
+
+        /* 打印样式 */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .document-container {
+                max-width: 100%;
+                padding: 20mm;
+            }
+        }
+    </style>
+
+    <style>
+        {{ theme_css }}
+    </style>
+</head>
+<body>
+    <article class="document-container">
+        {% if title_svg %}
+        <header class="document-header">
+            <div class="title-svg">{{ title_svg | safe }}</div>
+        </header>
+        {% endif %}
+
+        <main class="document-content">
+            {{ content | safe }}
+        </main>
+
+        {% if metadata %}
+        <footer class="document-footer">
+            <small class="metadata">{{ metadata | tojson }}</small>
+        </footer>
+        {% endif %}
+    </article>
+</body>
+</html>

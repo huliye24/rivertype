@@ -1,0 +1,33 @@
+# RIVERTYPE - 未来出版引擎
+# 将 Markdown 转化为具有视觉美学的未来出版作品
+
+# Web 框架
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# Markdown 解析
+markdown-it-py>=3.0.0
+
+# 模板引擎
+Jinja2>=3.1.3
+
+# SVG 生成
+svgwrite>=1.4.3
+
+# 数据验证
+pydantic>=2.5.0
+
+# 浏览器自动化 (PDF/PNG 导出)
+playwright>=1.40.0
+
+# PDF 生成 (备选方案)
+weasyprint>=60.0
+
+# HTTP 客户端
+httpx>=0.26.0
+
+# 文件上传
+python-multipart>=0.0.6
+
+# 异步文件操作
+aiofiles>=23.2.1

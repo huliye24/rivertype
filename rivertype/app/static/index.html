@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIVERTYPE - 未来出版引擎</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: #0b0b0b;
+            color: #e8e8e8;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        /* 工业风格标题 */
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-main {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .logo-main::before {
+            content: 'RIVER';
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-main::after {
+            content: 'TYPE';
+            background: linear-gradient(135deg, #c41e3a 0%, #ff4757 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-left: 0.15em;
+        }
+
+        .logo-divider {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c41e3a, #ff4757, #c41e3a, transparent);
+            margin: 12px 0;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .panel {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .panel-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #888;
+        }
+
+        .panel-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        select, button {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #e8e8e8;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        select:hover, button:hover {
+            border-color: #c41e3a;
+        }
+
+        button.primary {
+            background: #c41e3a;
+            border-color: #c41e3a;
+            color: white;
+        }
+
+        button.primary:hover {
+            background: #ff4757;
+            border-color: #ff4757;
+        }
+
+        textarea {
+            width: 100%;
+            height: calc(100vh - 350px);
+            min-height: 400px;
+            padding: 24px;
+            background: transparent;
+            border: none;
+            color: #e8e8e8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            resize: none;
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #555;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: calc(100vh - 350px);
+            min-height: 400px;
+            border: none;
+            background: white;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #0b0b0b;
+            border-top: 1px solid #2a2a2a;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-wrapper">
+                <div class="logo-main">
+                    RIVERTYPE
+                </div>
+                <div class="logo-divider"></div>
+                <p class="subtitle">FUTURE PUBLISHING ENGINE</p>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Markdown 编辑器</span>
+                    <div class="panel-controls">
+                        <button onclick="loadSample()">加载示例</button>
+                    </div>
+                </div>
+                <textarea id="markdown-input" placeholder="在此输入 Markdown 文本..."># 非平衡市场理论
+
+## 前言
+
+> 市场从来不是均衡的。真正的机会，存在于失衡的缝隙之中。
+
+本文探讨非平衡状态下市场运作的深层逻辑，揭示传统经济学假设中的根本性缺陷。
+
+## 核心观点
+
+### 1. 失衡常态
+
+**市场均衡只是数学家的幻想。** 现实世界中，价格永远在波动，信息永远不对称，参与者永远在博弈。
+
+### 2. 机会窗口
+
+在系统从一种失衡状态向另一种失衡状态转换的过程中，会出现短暂的机会窗口。
+
+* 流动性错配期
+* 信息不对称期
+* 预期分歧期
+
+### 3. 策略框架
+
+```
+失衡 → 识别 → 布局 → 等待 → 收割
+```
+
+---
+
+## 结论
+
+非平衡市场理论不是预测工具，而是一种思维方式。它要求我们放弃对确定性的幻想，接受不确定性作为市场的本质特征。
+
+**真正的赢家，是那些能在混沌中找到秩序的人。**</textarea>
+                <div class="status-bar">
+                    <div class="status-item">
+                        <span class="status-dot"></span>
+                        <span id="status-text">就绪</span>
+                    </div>
+                    <div class="status-item">
+                        <span id="char-count">0</span> 字符
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">实时预览</span>
+                    <div class="panel-controls">
+                        <button class="primary" onclick="render()">渲染</button>
+                        <button onclick="exportPDF()">导出 PDF</button>
+                    </div>
+                </div>
+                <iframe id="preview-frame" class="preview-frame"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const markdownInput = document.getElementById('markdown-input');
+        const previewFrame = document.getElementById('preview-frame');
+        const charCount = document.getElementById('char-count');
+        const statusText = document.getElementById('status-text');
+        const currentTheme = 'rongjing';
+
+        markdownInput.addEventListener('input', () => {
+            charCount.textContent = markdownInput.value.length;
+        });
+
+        function setStatus(text, loading = false) {
+            statusText.textContent = text;
+            if (loading) {
+                markdownInput.classList.add('loading');
+            } else {
+                markdownInput.classList.remove('loading');
+            }
+        }
+
+        function loadSample() {
+            const sample = `# 非平衡市场理论
+
+## 前言
+
+> 市场从来不是均衡的。真正的机会，存在于失衡的缝隙之中。
+
+本文探讨非平衡状态下市场运作的深层逻辑。
+
+## 核心观点
+
+### 失衡常态
+
+**市场均衡只是数学家的幻想。** 现实世界中，价格永远在波动。
+
+### 机会窗口
+
+在系统转换的过程中，会出现短暂的机会窗口。
+
+* 流动性错配期
+* 信息不对称期
+
+---
+
+非平衡市场理论不是预测工具，而是一种思维方式。`;
+
+            markdownInput.value = sample;
+            charCount.textContent = sample.length;
+            render();
+        }
+
+        async function render() {
+            const markdown = markdownInput.value;
+            if (!markdown.trim()) return;
+
+            setStatus('渲染中...', true);
+
+            try {
+                const response = await fetch('/render', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        markdown: markdown,
+                        theme: currentTheme,
+                        style: 'geometric'
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    previewFrame.srcdoc = data.html;
+                    setStatus('就绪');
+                } else {
+                    previewFrame.srcdoc = '<html><body style="background:#1a1a1a;color:#888;padding:40px;"><p>渲染失败，请检查输入格式</p></body></html>';
+                    setStatus('渲染失败');
+                }
+            } catch (error) {
+                previewFrame.srcdoc = '<html><body style="background:#1a1a1a;color:#888;padding:40px;"><p>连接服务器失败，请确保服务已启动</p></body></html>';
+                setStatus('连接失败');
+            }
+        }
+
+        async function exportPDF() {
+            const markdown = markdownInput.value;
+            if (!markdown.trim()) return;
+
+            setStatus('导出中...', true);
+
+            try {
+                const response = await fetch('/export', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        markdown: markdown,
+                        theme: currentTheme,
+                        format: ['pdf']
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        alert('PDF 导出成功！\n文件路径: ' + data.files.pdf);
+                    } else {
+                        alert('导出失败: ' + data.message);
+                    }
+                } else {
+                    alert('导出失败');
+                }
+            } catch (error) {
+                alert('导出失败: ' + error.message);
+            } finally {
+                setStatus('就绪');
+            }
+        }
+
+        let renderTimeout;
+        markdownInput.addEventListener('input', () => {
+            clearTimeout(renderTimeout);
+            renderTimeout = setTimeout(render, 500);
+        });
+
+        render();
+    </script>
+</body>
+</html>
