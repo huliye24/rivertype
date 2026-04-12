@@ -1,0 +1,59 @@
+# Docker 忽略文件
+# 避免将不必要的文件复制到镜像中
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 虚拟环境
+venv/
+.venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.docker/
+
+# 测试
+tests/
+*.test.py
+.coverage
+htmlcov/
+
+# 文档
+*.md
+!requirements.txt
+
+# 临时文件
+*.log
+*.tmp
+temp/
+tmp/
+
+# Node（如果有）
+node_modules/
+
+# msys64（Windows DLL）
+msys64/
+
+# 本地输出
+output/

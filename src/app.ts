@@ -67,18 +67,19 @@ export class App {
     });
   }
 
-  private handleRender(): void {
+  private async handleRender(): Promise<void> {
     const content = this.editor.getContent();
-    this.preview.render(content);
+    await this.preview.render(content);
   }
 
   private handleExportPDF(): void {
-    console.log('Export PDF');
+    const content = this.editor.getContent();
+    this.preview.exportPDF(content);
   }
 
-  private handleExportHTML(): void {
+  private async handleExportHTML(): Promise<void> {
     const content = this.editor.getContent();
-    this.preview.exportHTML(content);
+    await this.preview.exportHTML(content);
   }
 
   private handleNew(): void {

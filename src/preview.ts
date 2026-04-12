@@ -1,5 +1,4 @@
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+const API_BASE = '/api';
 
 export class Preview {
   private element: HTMLElement | null = null;
@@ -11,16 +10,38 @@ export class Preview {
     return this.element;
   }
 
-  render(markdown: string): void {
+  async render(markdown: string): Promise<void> {
     const el = this.getElement();
     if (!el) return;
 
-    const html = marked.parse(markdown, { async: false }) as string;
-    const clean = DOMPurify.sanitize(html);
+    el.innerHTML = '<p class="loading">正在渲染...</p>';
 
-    el.innerHTML = `
-      <div class="preview-content">${clean}</div>
-    `;
+    try {
+      const response = await fetch(`${API_BASE}/render`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markdown,
+          theme: 'default',
+          include_toc: true,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      el.innerHTML = `<div class="preview-content">${data.html}</div>`;
+    } catch (error) {
+      // 后端不可用时，回退到纯前端渲染
+      console.warn('后端不可用，回退到纯前端渲染:', error);
+      const { marked } = await import('marked');
+      const { default: DOMPurify } = await import('dompurify');
+      const html = marked.parse(markdown, { async: false }) as string;
+      const clean = DOMPurify.sanitize(html);
+      el.innerHTML = `<div class="preview-content">${clean}</div>`;
+    }
   }
 
   clear(): void {
@@ -33,33 +54,59 @@ export class Preview {
     }
   }
 
-  exportHTML(markdown: string): void {
-    const html = marked.parse(markdown, { async: false }) as string;
-    const clean = DOMPurify.sanitize(html);
-    const fullHTML = `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <title>RIVERTYPE Export</title>
-  <style>
-    body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-    h1, h2, h3 { color: #333; }
-    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
-    pre { background: #f5f5f5; padding: 16px; overflow-x: auto; }
-    blockquote { border-left: 4px solid #a30a24; margin: 0; padding-left: 16px; color: #666; }
-  </style>
-</head>
-<body>
-${clean}
-</body>
-</html>`;
+  async exportHTML(markdown: string): Promise<void> {
+    try {
+      const response = await fetch(`${API_BASE}/export/html`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markdown,
+          theme: 'default',
+          full_page: false,
+          include_toc: false,
+        }),
+      });
 
-    const blob = new Blob([fullHTML], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'document.html';
-    a.click();
-    URL.revokeObjectURL(url);
+      if (!response.ok) throw new Error('Export failed');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'document.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('导出失败:', error);
+      alert('导出失败，请确保后端服务正在运行');
+    }
+  }
+
+  async exportPDF(markdown: string): Promise<void> {
+    try {
+      const response = await fetch(`${API_BASE}/export/pdf`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markdown,
+          theme: 'default',
+          full_page: true,
+          include_toc: true,
+        }),
+      });
+
+      if (!response.ok) throw new Error('PDF生成失败');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'document.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('PDF导出失败:', error);
+      alert('PDF导出失败: ' + error);
+    }
   }
 }

@@ -1,0 +1,25 @@
+# RIVERTYPE - Docker Compose 配置
+# 未来出版引擎
+
+services:
+  rivertype:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rivertype
+    ports:
+      - "8000:8000"
+    volumes:
+      # 挂载输出目录，便于访问导出的文件
+      - ./output:/app/output
+      # 挂载示例文件（可选）
+      - ./examples:/app/examples:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

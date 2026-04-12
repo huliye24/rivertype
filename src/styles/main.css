@@ -91,6 +91,7 @@ body {
     gap: 1px;
     background-color: #1a1a1a;
     padding: 1px 0;
+    overflow: hidden;
 }
 
 .pane {
@@ -98,6 +99,7 @@ body {
     background-color: #0a0a0a;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .pane-header {
@@ -105,9 +107,8 @@ body {
     font-size: 11px;
     color: #444;
     text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
     border-bottom: 1px solid #111;
+    flex-shrink: 0;
 }
 
 .pane-header .hint {
@@ -126,31 +127,51 @@ textarea {
     font-size: 14px;
     line-height: 1.6;
     resize: none;
+    overflow: auto;
 }
 
 textarea::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #0a0a0a;
 }
 
 textarea::-webkit-scrollbar-thumb {
-    background: #222;
+    background: #333;
+    border-radius: 3px;
 }
 
 /* 预览区域 */
 .preview-area {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    text-align: center;
-    line-height: 2;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.preview-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.preview-area::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+.preview-area::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+.preview-area::-webkit-scrollbar-thumb:hover {
+    background: #444;
 }
 
 .preview-area p {
     font-size: 14px;
+    color: #333;
+    text-align: center;
+    padding: 40px 20px;
 }
 
 .shortcut {
@@ -158,13 +179,14 @@ textarea::-webkit-scrollbar-thumb {
     font-weight: bold;
 }
 
-/* 预览内容样式 */
+/* 预览内容样式 - 阅读感布局 */
 .preview-content {
-    width: 100%;
-    padding: 20px;
-    text-align: left;
-    color: #999;
-    overflow: auto;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    color: #b0b0b0;
+    line-height: 1.8;
+    font-size: 16px;
 }
 
 .preview-content h1,
@@ -173,25 +195,31 @@ textarea::-webkit-scrollbar-thumb {
 .preview-content h4,
 .preview-content h5,
 .preview-content h6 {
-    color: #d1d1d1;
-    margin: 1em 0 0.5em;
+    color: #e0e0e0;
+    margin: 1.5em 0 0.8em;
+    line-height: 1.4;
+    font-weight: 500;
 }
 
 .preview-content h1 {
     font-size: 2em;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid #222;
     padding-bottom: 0.3em;
+    margin-top: 0;
 }
 
 .preview-content h2 {
     font-size: 1.5em;
-    border-bottom: 1px solid #111;
+    border-bottom: 1px solid #1a1a1a;
     padding-bottom: 0.3em;
+}
+
+.preview-content h3 {
+    font-size: 1.25em;
 }
 
 .preview-content p {
     margin: 1em 0;
-    line-height: 1.8;
 }
 
 .preview-content a {
@@ -209,56 +237,82 @@ textarea::-webkit-scrollbar-thumb {
     border-radius: 3px;
     font-family: "Fira Code", "Consolas", monospace;
     font-size: 0.9em;
+    color: #c0a0a0;
 }
 
 .preview-content pre {
-    background: #1a1a1a;
-    padding: 16px;
-    border-radius: 4px;
+    background: #111;
+    padding: 16px 20px;
+    border-radius: 6px;
     overflow-x: auto;
+    margin: 1.2em 0;
 }
 
 .preview-content pre code {
     background: none;
     padding: 0;
+    font-size: 0.95em;
+    line-height: 1.6;
 }
 
 .preview-content blockquote {
-    border-left: 4px solid #a30a24;
-    margin: 1em 0;
-    padding-left: 16px;
-    color: #666;
+    border-left: 3px solid #a30a24;
+    margin: 1.2em 0;
+    padding: 0.5em 0 0.5em 20px;
+    color: #808080;
+    font-style: italic;
+    background: #0d0d0d;
 }
 
 .preview-content ul,
 .preview-content ol {
     margin: 1em 0;
-    padding-left: 2em;
+    padding-left: 1.5em;
 }
 
 .preview-content li {
-    margin: 0.5em 0;
+    margin: 0.4em 0;
 }
 
 .preview-content hr {
     border: none;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #222;
     margin: 2em 0;
+}
+
+.preview-content img {
+    max-width: 100%;
+    border-radius: 4px;
 }
 
 .preview-content table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0;
+    margin: 1.2em 0;
+    font-size: 0.95em;
 }
 
 .preview-content th,
 .preview-content td {
     border: 1px solid #1a1a1a;
-    padding: 8px 12px;
+    padding: 10px 14px;
     text-align: left;
 }
 
 .preview-content th {
-    background: #1a1a1a;
+    background: #111;
+    color: #d0d0d0;
+    font-weight: 500;
+}
+
+.preview-content tr:nth-child(even) {
+    background: #0c0c0c;
+}
+
+/* 加载状态 */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #555;
+    font-size: 14px;
 }

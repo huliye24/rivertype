@@ -104,24 +104,72 @@ class RivertypeApp:
 
     def _create_btn(self, parent, text, command, is_primary=False):
         """创建统一风格的按钮"""
-        bg = self.accent if is_primary else self.bg_header
-        fg = self.white if is_primary else self.text_primary
-        active_bg = self.accent_hover if is_primary else self.bg_hover
-        active_fg = self.white
+        if is_primary:
+            # 主要按钮：红色背景 + 黑色边框
+            btn = tk.Frame(parent, bg="#c41e3a", padx=1, pady=1)
+            inner = tk.Frame(btn, bg="#0a0a0a")
+            inner.pack(fill=tk.BOTH, expand=True)
+            tk.Label(
+                inner, text=text,
+                font=("微软雅黑", 10, "bold"),
+                fg="#ffffff", bg="#c41e3a",
+                padx=14, pady=5,
+                cursor="hand2"
+            ).pack(fill=tk.BOTH, expand=True)
+        else:
+            # 普通按钮：深色背景 + 白色边框
+            btn = tk.Frame(parent, bg="#ffffff", padx=1, pady=1)
+            inner = tk.Frame(btn, bg="#181818")
+            inner.pack(fill=tk.BOTH, expand=True)
+            tk.Label(
+                inner, text=text,
+                font=("微软雅黑", 10),
+                fg="#ffffff", bg="#181818",
+                padx=14, pady=5,
+                cursor="hand2"
+            ).pack(fill=tk.BOTH, expand=True)
 
-        btn = tk.Button(
-            parent, text=text,
-            command=command,
-            bg=bg, fg=fg,
-            activebackground=active_bg, activeforeground=active_fg,
-            relief=tk.FLAT,
-            padx=16, pady=6,
-            font=("Microsoft YaHei UI", 9, "bold" if is_primary else "normal"),
-            cursor="hand2",
-            borderwidth=0,
-            highlightthickness=0
-        )
+        btn.bind("<Button-1>", lambda e: command())
+        for w in [btn, inner]:
+            w.bind("<Enter>", lambda e, b=btn: self._on_btn_hover(b, True))
+            w.bind("<Leave>", lambda e, b=btn: self._on_btn_hover(b, False))
+
         return btn
+
+    def _on_btn_hover(self, btn, entering):
+        """按钮悬停效果"""
+        children = btn.winfo_children()
+        if not children:
+            return
+
+        inner = children[0]
+        labels = inner.winfo_children()
+        if not labels:
+            return
+
+        label = labels[0]
+
+        if entering:
+            if btn["bg"] == "#c41e3a":
+                # 主要按钮悬停：背景变亮
+                btn.configure(bg="#d43050")
+                label.configure(bg="#d43050")
+            else:
+                # 普通按钮悬停：背景变亮
+                btn.configure(bg="#d43050")
+                btn.configure(bg="#242424")
+                inner.configure(bg="#242424")
+                label.configure(bg="#242424")
+        else:
+            if btn["bg"] in ["#d43050", "#c41e3a"]:
+                # 恢复主要按钮
+                btn.configure(bg="#c41e3a")
+                label.configure(bg="#c41e3a")
+            else:
+                # 恢复普通按钮
+                btn.configure(bg="#ffffff")
+                inner.configure(bg="#181818")
+                label.configure(bg="#181818")
 
     def _create_ui(self):
         """创建用户界面"""
@@ -167,13 +215,14 @@ class RivertypeApp:
         )
         logo.pack(side=tk.LEFT, pady=6)
 
-        # 未来出版引擎 - 白色小字在右侧
+        # 未来出版引擎 - 白色小字在右侧，字间距增加
         subtitle = tk.Label(
             logo_frame,
             text="未来出版引擎",
-            font=("Microsoft YaHei UI", 10),
+            font=("微软雅黑", 9),
             fg=self.white,
-            bg=self.bg_header
+            bg=self.bg_header,
+            padx=6
         )
         subtitle.pack(side=tk.LEFT, padx=(16, 0), anchor="c", pady=8)
 
@@ -186,55 +235,13 @@ class RivertypeApp:
         btn_frame.pack(side=tk.RIGHT, padx=20, pady=8)
 
         # 主题选择
-        theme_label = tk.Label(
-            btn_frame, text="主题:",
-            bg=self.bg_header, fg=self.text_secondary,
-            font=("Microsoft YaHei UI", 9)
-        )
-        theme_label.pack(side=tk.LEFT, padx=(0, 6), anchor="c", pady=6)
-
-        # 主题下拉框样式
-        style = ttk.Style()
-        style.theme_use('clam')
-        style.configure(
-            "Custom.TCombobox",
-            fieldbackground=self.bg_panel,
-            background=self.bg_header,
-            foreground=self.text_primary,
-            bordercolor=self.border_color,
-            lightcolor=self.bg_header,
-            darkcolor=self.bg_header
-        )
-        style.map(
-            "Custom.TCombobox",
-            fieldbackground=[('readonly', self.bg_panel)],
-            selectbackground=[('readonly', self.bg_header)],
-            selectforeground=[('readonly', self.text_primary)]
-        )
-
-        self.theme_combo = ttk.Combobox(
-            btn_frame,
-            textvariable=self.current_theme_id,
-            values=[],
-            width=12,
-            state="readonly",
-            font=("Microsoft YaHei UI", 9),
-            style="Custom.TCombobox"
-        )
-        self.theme_combo.pack(side=tk.LEFT, padx=2, anchor="c", pady=6)
-        self.theme_combo.bind("<<ComboboxSelected>>", self._on_theme_changed)
-
-        # 分隔线
-        sep = tk.Frame(btn_frame, bg=self.border_color, width=1, height=28)
-        sep.pack(side=tk.LEFT, padx=14)
-
         # 文件操作按钮组
         file_btn_frame = tk.Frame(btn_frame, bg=self.bg_header)
         file_btn_frame.pack(side=tk.LEFT)
 
-        self._create_btn(file_btn_frame, "新建", self._new_file).pack(side=tk.LEFT, padx=1)
-        self._create_btn(file_btn_frame, "打开", self._open_file).pack(side=tk.LEFT, padx=1)
-        self._create_btn(file_btn_frame, "保存", self._save_file).pack(side=tk.LEFT, padx=1)
+        self._create_btn(file_btn_frame, "新建", self._new_file).pack(side=tk.LEFT, padx=2)
+        self._create_btn(file_btn_frame, "打开", self._open_file).pack(side=tk.LEFT, padx=2)
+        self._create_btn(file_btn_frame, "保存", self._save_file).pack(side=tk.LEFT, padx=2)
 
         # 分隔线
         sep2 = tk.Frame(btn_frame, bg=self.border_color, width=1, height=28)
@@ -244,9 +251,9 @@ class RivertypeApp:
         export_btn_frame = tk.Frame(btn_frame, bg=self.bg_header)
         export_btn_frame.pack(side=tk.LEFT)
 
-        self._create_btn(export_btn_frame, "动画预览", self._on_render, is_primary=True).pack(side=tk.LEFT, padx=1)
-        self._create_btn(export_btn_frame, "导出 PDF", self._on_export_pdf, is_primary=True).pack(side=tk.LEFT, padx=1)
-        self._create_btn(export_btn_frame, "导出 HTML", self._on_export_html, is_primary=True).pack(side=tk.LEFT, padx=1)
+        self._create_btn(export_btn_frame, "渲染预览", self._on_render, is_primary=True).pack(side=tk.LEFT, padx=2)
+        self._create_btn(export_btn_frame, "导出 PDF", self._on_export_pdf, is_primary=True).pack(side=tk.LEFT, padx=2)
+        self._create_btn(export_btn_frame, "导出 HTML", self._on_export_html, is_primary=True).pack(side=tk.LEFT, padx=2)
 
     def _create_editor_panel(self, parent):
         """创建左侧编辑器面板"""
@@ -262,13 +269,13 @@ class RivertypeApp:
 
         tk.Label(
             header, text="MARKDOWN 编辑器",
-            font=("Microsoft YaHei UI", 10, "bold"),
+            font=("微软雅黑", 11, "bold"),
             fg=self.text_secondary, bg=self.bg_header
         ).pack(side=tk.LEFT, padx=18, pady=10)
 
         tk.Label(
             header, text="支持完整的 Markdown 语法",
-            font=("Microsoft YaHei UI", 8),
+            font=("微软雅黑", 9),
             fg=self.text_muted, bg=self.bg_header
         ).pack(side=tk.RIGHT, padx=18, pady=10)
 
@@ -309,7 +316,7 @@ class RivertypeApp:
 
         tk.Label(
             header, text="实时预览",
-            font=("Microsoft YaHei UI", 10, "bold"),
+            font=("微软雅黑", 11, "bold"),
             fg=self.text_secondary, bg=self.bg_header
         ).pack(side=tk.LEFT, padx=18, pady=10)
 
@@ -317,7 +324,7 @@ class RivertypeApp:
         self.preview_hint = tk.Label(
             header,
             text="",
-            font=("Microsoft YaHei UI", 8),
+            font=("微软雅黑", 9),
             fg=self.accent, bg=self.bg_header
         )
         self.preview_hint.pack(side=tk.RIGHT, padx=18, pady=10)
@@ -339,7 +346,7 @@ class RivertypeApp:
         tk.Label(
             hint_frame,
             text=hint_text,
-            font=("Microsoft YaHei UI", 8),
+            font=("微软雅黑", 9),
             fg=self.text_muted, bg=self.bg_dark,
             justify=tk.LEFT, anchor="w", padx=12, pady=10
         ).pack()
@@ -352,7 +359,7 @@ class RivertypeApp:
 
         self.status_text = tk.Label(
             statusbar, text="就绪",
-            font=("Segoe UI", 8),
+            font=("微软雅黑", 9),
             fg=self.text_muted, bg=self.bg_dark
         )
         self.status_text.pack(side=tk.LEFT, padx=16, anchor="c", fill="y", expand=True)
@@ -360,14 +367,14 @@ class RivertypeApp:
         # 字符统计
         self.char_count_label = tk.Label(
             statusbar, text="0 字符",
-            font=("Segoe UI", 8),
+            font=("微软雅黑", 9),
             fg=self.text_muted, bg=self.bg_dark
         )
         self.char_count_label.pack(side=tk.RIGHT, padx=16, anchor="c")
 
         self._line_count_label = tk.Label(
             statusbar, text="0 行",
-            font=("Segoe UI", 8),
+            font=("微软雅黑", 9),
             fg=self.text_muted, bg=self.bg_dark
         )
         self._line_count_label.pack(side=tk.RIGHT, padx=(16, 0), anchor="c")
