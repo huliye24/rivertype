@@ -1,0 +1,239 @@
+/*
+ * RiverType 古籍主题 (guji) — 样式表
+ * 版本:0.1.0
+ *
+ * 设计原则:
+ * - 竖排优先(模拟古籍阅读体验)
+ * - 宋体 + 思源宋体,庄重
+ * - 宣纸底色(#f4ecd8)
+ * - 双行夹注(校注放原文旁)
+ * - 区分原文 / 断句 / 异文 / 校注 / 白话 / 英译
+ */
+
+:root {
+  --bg-paper: #f4ecd8;
+  --bg-paper-light: #f9f3e0;
+  --text-primary: #2c2416;
+  --text-annotation: #5c4a2a;
+  --text-variants: #6b4423;
+  --accent-gold: #8b6914;
+  --border-soft: #a89478;
+  --border-strong: #6b4423;
+}
+
+/* 字体 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Noto Serif SC", "Source Han Serif", "宋体", SimSun, serif;
+  background: var(--bg-paper);
+  color: var(--text-primary);
+  line-height: 1.8;
+  padding: 2em;
+}
+
+/* 容器 */
+.rt-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--bg-paper-light);
+  padding: 3em 2em;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 2px 12px rgba(107, 68, 35, 0.1);
+}
+
+/* 标题 */
+.rt-title {
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 0.5em;
+  letter-spacing: 0.2em;
+}
+
+.rt-author {
+  text-align: center;
+  font-size: 1em;
+  color: var(--text-annotation);
+  margin-bottom: 2em;
+  font-style: italic;
+}
+
+/* 区段标题 */
+.rt-section {
+  margin: 2em 0;
+}
+
+.rt-section-title {
+  font-size: 1.3em;
+  color: var(--accent-gold);
+  border-bottom: 2px solid var(--accent-gold);
+  padding-bottom: 0.3em;
+  margin-bottom: 1em;
+  font-weight: 700;
+}
+
+/* source 区段 — 竖排,大字号 */
+.rt-section[data-section="source"] {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 1.5em;
+  max-height: 60vh;
+  padding: 1em;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-paper);
+  margin: 0 auto 2em;
+  overflow-x: auto;
+}
+
+.rt-section[data-section="source"] p,
+.rt-section[data-section="source"] blockquote {
+  margin: 0 0.5em;
+  text-indent: 0;
+}
+
+/* punctuation 区段 — 横排(断句适合横排阅读) */
+.rt-section[data-section="punctuation"] {
+  writing-mode: horizontal-tb;
+  font-size: 1.2em;
+  padding: 1em;
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(139, 105, 20, 0.05);
+}
+
+.rt-section[data-section="punctuation"] blockquote {
+  margin: 0;
+}
+
+/* variants 区段 — 横排表格 */
+.rt-section[data-section="variants"] {
+  writing-mode: horizontal-tb;
+}
+
+.rt-section[data-section="variants"] table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.rt-section[data-section="variants"] th {
+  background: var(--accent-gold);
+  color: var(--bg-paper-light);
+  padding: 0.5em;
+  font-weight: 700;
+}
+
+.rt-section[data-section="variants"] td {
+  padding: 0.5em;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: center;
+}
+
+/* annotation 区段 — 横排小字号,左侧金线 */
+.rt-section[data-section="annotation"] {
+  writing-mode: horizontal-tb;
+  font-size: 0.9em;
+  padding: 1em 1.5em;
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(139, 105, 20, 0.03);
+  color: var(--text-annotation);
+}
+
+.rt-section[data-section="annotation"] ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.rt-section[data-section="annotation"] li {
+  margin-bottom: 0.5em;
+  padding-left: 1.5em;
+  position: relative;
+}
+
+.rt-section[data-section="annotation"] li::before {
+  content: "〔校〕";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-size: 0.85em;
+}
+
+.rt-section[data-section="annotation"] strong {
+  color: var(--text-primary);
+  margin-right: 0.5em;
+}
+
+/* vernacular 区段 — 横排,稍大字号 */
+.rt-section[data-section="vernacular"] {
+  writing-mode: horizontal-tb;
+  font-size: 1.05em;
+  padding: 1em;
+  line-height: 2;
+}
+
+.rt-section[data-section="vernacular"] blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+/* english 区段 — 横排,斜体 */
+.rt-section[data-section="english"] {
+  writing-mode: horizontal-tb;
+  font-size: 0.95em;
+  padding: 1em;
+  font-style: italic;
+  color: var(--text-annotation);
+  border-top: 1px dashed var(--border-soft);
+}
+
+/* meta 区段 — 小字号灰 */
+.rt-section[data-section="meta"] {
+  writing-mode: horizontal-tb;
+  font-size: 0.85em;
+  color: var(--text-annotation);
+  padding: 1em;
+  background: rgba(0, 0, 0, 0.02);
+  border-top: 1px solid var(--border-soft);
+  margin-top: 2em;
+}
+
+/* 元信息(frontmatter) */
+.rt-frontmatter {
+  writing-mode: horizontal-tb;
+  font-size: 0.85em;
+  color: var(--text-annotation);
+  background: rgba(139, 105, 20, 0.05);
+  padding: 1em;
+  margin-bottom: 2em;
+  border-left: 2px solid var(--accent-gold);
+}
+
+.rt-frontmatter dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3em 1em;
+}
+
+.rt-frontmatter dt {
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.rt-frontmatter dd {
+  margin: 0;
+}
+
+/* 响应式:小屏幕自动切换为横排 */
+@media (max-width: 600px) {
+  .rt-section[data-section="source"] {
+    writing-mode: horizontal-tb;
+    max-height: none;
+  }
+}

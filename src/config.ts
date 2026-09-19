@@ -1,3 +1,5 @@
+export const API_BASE = '/api';
+
 export interface AppConfig {
   brand: string;
   slogan: string;

@@ -1,0 +1,76 @@
+---
+title: 黄帝内经·素问·上古天真论(节)
+work_id: hnjj-sq-sgtzlc
+author: 佚名(托名黄帝)
+dynasty: 先秦至西汉
+editions:
+  base: 顾从德
+  collated:
+    - 史崧
+    - 人卫校注
+protocol: rtp/0.1
+created: 2026-09-20
+transliterator: 文川院 AI v1
+---
+
+<!-- @section: source -->
+## 原文
+
+> 昔在黄帝,
+> 生而神灵,
+> 弱而能言,
+> 幼而徇齐,
+> 长而敦敏,
+> 成而登天。
+
+<!-- @section: variants -->
+## 异文
+
+| 章·字 | 顾从德 | 史崧 | 人卫校注 |
+|-------|--------|------|----------|
+| 1.1   | 昔     | 昔   | 昔       |
+| 1.5   | 在     | 在   | 在       |
+| 1.7   | 黄     | 黄   | 黄       |
+| 1.9   | 帝     | 帝   | 帝       |
+| 2.2   | 神     | 神   | 神       |
+| 2.4   | 灵     | 灵   | 灵       |
+
+@校勘 诸本同,无异文。
+
+<!-- @section: annotation -->
+## 校注
+
+- **1 生**:@王冰 生者,生于此也。
+- **2 神灵**:@王冰 神灵,聪明灵智也。
+- **3 弱而能言**:@王冰 弱,谓幼时。言,言事。《大戴礼》"人生三月而能言"。
+- **4 徇齐**:@王冰 徇,周遍。齐,疾速。@音注 徇,音"迅"xùn。@训诂 "徇"通"迅"。
+- **5 敦敏**:@王冰 敦,厚也;敏,达也。言黄帝长而道德敦厚、思虑敏达。
+- **6 登天**:@王冰 登天,谓升百岁之后,归于天。
+
+<!-- @section: vernacular -->
+## 白话
+
+昔时的黄帝,
+生来就聪明灵智,
+幼小时就能说话,
+少年时思虑周全、行动敏捷,
+成年后敦厚勤勉,
+成年有成而登天子之位。
+
+<!-- @section: english -->
+## English
+
+In ancient times the Yellow Emperor,
+born wise and divine,
+in infancy could speak;
+in youth was perceptive and quick;
+in manhood was sincere and diligent;
+in maturity ascended to the throne.
+
+<!-- @section: meta -->
+## 转译元信息
+
+- 协议版本:rtp/0.1
+- 转译日期:2026-09-20
+- 转译引擎:文川院 AI v1
+- 协议校验:见 docs/protocol/RTP-0.1.md

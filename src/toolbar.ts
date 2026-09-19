@@ -5,6 +5,7 @@ export interface ToolbarCallbacks {
   onNew: () => void;
   onOpen: () => void;
   onSave: () => void;
+  onAIDesign: () => void;
 }
 
 export class Toolbar {
@@ -24,6 +25,7 @@ export class Toolbar {
       <button class="btn btn-primary" data-action="render">渲染预览</button>
       <button class="btn btn-primary" data-action="pdf">导出 PDF</button>
       <button class="btn" data-action="html">导出 HTML</button>
+      <button class="btn btn-ai" data-action="ai-design">AI 设计</button>
     `;
 
     container.addEventListener('click', (e) => {
@@ -48,6 +50,9 @@ export class Toolbar {
           break;
         case 'html':
           this.callbacks.onExportHTML();
+          break;
+        case 'ai-design':
+          this.callbacks.onAIDesign();
           break;
       }
     });

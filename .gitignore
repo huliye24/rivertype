@@ -7,10 +7,13 @@ __pycache__/
 venv/
 env/
 .venv/
+*.egg-info/
+*.egg
+build/
+dist/
 
 # TypeScript / Node
 node_modules/
-dist/
 *.log
 
 # IDE
@@ -18,6 +21,7 @@ dist/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
@@ -27,3 +31,7 @@ Thumbs.db
 *.tmp
 *.cache
 output/
+output/**
+*.rt.bak
+test_output.txt
+out.txt

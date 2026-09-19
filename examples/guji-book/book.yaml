@@ -1,0 +1,29 @@
+# RiverType 书项目配置
+# 一本书 = 一个目录。渲染、转录、核验、组装、成书都以此为工作单元。
+# 完整规范见仓库根目录 SPEC.md。
+
+title: 金丹四百字解四种
+author: （宋）张伯端 原著 ·（清）刘一明 解注
+language: zh-Hans
+size: A5
+
+# 底本扫描件（放入 scans/ 后填相对路径）
+source_pdf: scans/底本.pdf
+
+render:
+  dpi: 200          # 渲染精度：古籍正文 200 起步，小字批注建议 300
+  band_overlap: 0.08  # 上下半页工作带重叠比例，防跨带断行丢字
+
+transcribe:
+  engine: manual    # manual = 生成工作队列，由人或 AI 编码代理逐带转录（零成本、最可控）
+  # engine: anthropic   # 或用视觉模型自动转录：需要 pip install rivertype-cli[anthropic]
+  # engine: openai
+  # engine: ollama      # 本地多模态模型（qwen2.5vl 等）
+  # prompt_file: prompt.txt   # 自定义转录提示词（默认提示词已内置转录纪律）
+
+build:
+  theme: guji-dark  # 内置主题「古卷·玄色」，或指向含 style.css 的目录
+  format: epub      # epub | pdf
+
+collate:
+  reference: ""     # 通行本/参照本 Markdown 路径；填了之后可跑 rivertype collate 出校勘记

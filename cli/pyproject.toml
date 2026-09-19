@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rivertype-cli"
+version = "0.1.0"
+description = "RiverType CLI — 从扫描件到成书的 AI 原生出版流水线（render / transcribe / verify / assemble / build / collate）"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "RiverType contributors" }]
+keywords = ["publishing", "epub", "vivliostyle", "guji", "ocr", "transcription", "chinese"]
+dependencies = [
+    "pymupdf>=1.24",
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.34"]
+openai = ["openai>=1.40"]
+all = ["anthropic>=0.34", "openai>=1.40"]
+
+[project.scripts]
+rivertype = "rivertype_cli.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["rivertype_cli*"]
+
+[tool.setuptools.package-data]
+rivertype_cli = ["themes/**/*"]

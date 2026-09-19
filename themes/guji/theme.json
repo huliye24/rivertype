@@ -1,0 +1,60 @@
+{
+  "name": "guji",
+  "label": "古籍(宋体竖排)",
+  "version": "0.1.0",
+  "author": "huliye24",
+  "description": "中国古籍专用排版主题。竖排、宋体、宣纸底色、双行夹注。",
+  "fonts": {
+    "primary": "Noto Serif SC, Source Han Serif, 宋体, SimSun, serif",
+    "mono": "JetBrains Mono, Consolas, monospace"
+  },
+  "layout": {
+    "writing_mode": "vertical-rl",
+    "columns": 1,
+    "line_height": 1.8,
+    "max_lines_per_column": 30
+  },
+  "colors": {
+    "background": "#f4ecd8",
+    "text": "#2c2416",
+    "accent": "#8b6914",
+    "annotation": "#5c4a2a",
+    "variants": "#6b4423",
+    "border": "#a89478"
+  },
+  "section_styles": {
+    "source": {
+      "font_size": "20px",
+      "font_weight": "normal",
+      "text_indent": "2em"
+    },
+    "punctuation": {
+      "font_size": "18px",
+      "color": "annotation"
+    },
+    "variants": {
+      "font_size": "16px",
+      "background": "rgba(139, 105, 20, 0.05)"
+    },
+    "annotation": {
+      "font_size": "14px",
+      "color": "annotation",
+      "border_left": "2px solid accent"
+    },
+    "vernacular": {
+      "writing_mode": "horizontal-tb",
+      "font_size": "16px",
+      "color": "text"
+    },
+    "english": {
+      "writing_mode": "horizontal-tb",
+      "font_size": "14px",
+      "font_style": "italic"
+    }
+  },
+  "typography": {
+    "punctuation_spacing": "0.3em",
+    "verse_break": "1.5em",
+    "annotation_break": "0.8em"
+  }
+}

@@ -2,11 +2,15 @@ import { config } from './config';
 import { Editor } from './editor';
 import { Preview } from './preview';
 import { Toolbar } from './toolbar';
+import { AIDesign, AIScheme } from './ai-design';
 
 export class App {
   private editor: Editor;
   private preview: Preview;
   private toolbar: Toolbar;
+  private aiDesign: AIDesign | null = null;
+  private activeScheme: AIScheme | null = null;
+  private aiPanelVisible: boolean = false;
 
   constructor(container: HTMLElement) {
     this.editor = new Editor();
@@ -19,6 +23,7 @@ export class App {
       onNew: () => this.handleNew(),
       onOpen: () => this.handleOpen(),
       onSave: () => this.handleSave(),
+      onAIDesign: () => this.handleAIDesign(),
     });
 
     this.render(container);
@@ -50,6 +55,7 @@ export class App {
           </div>
         </section>
       </main>
+      <div id="ai-panel-container"></div>
     `;
 
     const toolbarEl = document.getElementById('toolbar');
@@ -67,24 +73,64 @@ export class App {
     });
   }
 
+  private handleAIDesign(): void {
+    const container = document.getElementById('ai-panel-container');
+    if (!container) return;
+
+    if (this.aiPanelVisible) {
+      // 关闭面板
+      this.closeAIPanel();
+      return;
+    }
+
+    this.aiPanelVisible = true;
+
+    this.aiDesign = new AIDesign({
+      onSchemeApplied: (scheme: AIScheme) => {
+        this.activeScheme = scheme;
+        this.preview.setActiveScheme(scheme);
+        this.handleRender();
+      },
+      onClose: () => {
+        this.closeAIPanel();
+      },
+    });
+
+    this.aiDesign.mount(container);
+  }
+
+  private closeAIPanel(): void {
+    const container = document.getElementById('ai-panel-container');
+    if (container) {
+      container.innerHTML = '';
+    }
+    this.aiPanelVisible = false;
+    this.aiDesign = null;
+  }
+
   private async handleRender(): Promise<void> {
     const content = this.editor.getContent();
-    await this.preview.render(content);
+    if (this.activeScheme) {
+      await this.preview.renderWithScheme(content, this.activeScheme);
+    } else {
+      await this.preview.render(content);
+    }
   }
 
   private handleExportPDF(): void {
     const content = this.editor.getContent();
-    this.preview.exportPDF(content);
+    this.preview.exportPDF(content, this.activeScheme);
   }
 
   private async handleExportHTML(): Promise<void> {
     const content = this.editor.getContent();
-    await this.preview.exportHTML(content);
+    await this.preview.exportHTML(content, this.activeScheme);
   }
 
   private handleNew(): void {
     this.editor.clear();
     this.preview.clear();
+    this.activeScheme = null;
   }
 
   private handleOpen(): void {

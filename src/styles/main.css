@@ -84,6 +84,17 @@ body {
     color: #fff;
 }
 
+.btn-ai {
+    background: transparent;
+    border-color: #6a3a8f;
+    color: #b060e0;
+}
+
+.btn-ai:hover {
+    background: #6a3a8f;
+    color: #fff;
+}
+
 /* 编辑器主区域 */
 .main {
     flex: 1;
@@ -315,4 +326,538 @@ textarea::-webkit-scrollbar-thumb {
     padding: 40px;
     color: #555;
     font-size: 14px;
+}
+
+/* AI 设计面板 */
+.ai-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100vh;
+    background: #111;
+    border-left: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.5);
+}
+
+.ai-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.ai-panel-header h2 {
+    color: #a30a24;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.ai-close-btn {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+}
+
+.ai-close-btn:hover {
+    color: #fff;
+}
+
+.ai-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+}
+
+.ai-hint {
+    font-size: 12px;
+    color: #555;
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+.ai-input-section textarea {
+    width: 100%;
+    background: #0a0a0a;
+    border: 1px solid #222;
+    color: #ccc;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.ai-input-section textarea:focus {
+    border-color: #a30a24;
+}
+
+.ai-input-section textarea::placeholder {
+    color: #444;
+}
+
+.ai-generate-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #a30a24;
+    color: #a30a24;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ai-generate-btn:hover {
+    background: #a30a24;
+    color: #fff;
+}
+
+.ai-loading {
+    text-align: center;
+    padding: 16px;
+    color: #a30a24;
+    font-size: 13px;
+}
+
+.ai-error {
+    margin-top: 10px;
+    padding: 10px;
+    background: #2a0a0a;
+    border: 1px solid #a30a24;
+    color: #ff6666;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.ai-used-prompt-area {
+    margin-top: 12px;
+}
+
+.ai-used-prompt-area label {
+    display: block;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ai-prompt-row {
+    display: flex;
+    gap: 8px;
+}
+
+.ai-prompt-row textarea {
+    flex: 1;
+}
+
+.ai-copy-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+    padding: 0 12px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.ai-copy-btn:hover {
+    border-color: #a30a24;
+    color: #a30a24;
+}
+
+/* 方案列表 */
+.ai-schemes-section {
+    margin-top: 20px;
+}
+
+.ai-schemes-section h3 {
+    font-size: 12px;
+    font-weight: normal;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px;
+}
+
+.ai-schemes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ai-scheme-card {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    padding: 14px;
+    transition: border-color 0.2s;
+}
+
+.ai-scheme-card:hover {
+    border-color: #333;
+}
+
+.ai-scheme-card.selected {
+    border-color: #a30a24;
+    background: #0d0808;
+}
+
+.ai-scheme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.ai-scheme-name {
+    color: #e0e0e0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ai-scheme-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.ai-action-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+    padding: 3px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ai-action-btn:hover {
+    border-color: #a30a24;
+    color: #a30a24;
+}
+
+.ai-apply-btn:hover {
+    background: #a30a24;
+    color: #fff !important;
+    border-color: #a30a24 !important;
+}
+
+.ai-scheme-desc {
+    color: #666;
+    font-size: 12px;
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+
+.ai-scheme-prompt {
+    margin-bottom: 10px;
+}
+
+.ai-scheme-prompt label {
+    display: block;
+    font-size: 10px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.ai-scheme-prompt textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 11px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    line-height: 1.4;
+}
+
+.ai-scheme-colors {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    cursor: default;
+    display: inline-block;
+}
+
+.ai-scheme-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: #444;
+}
+
+.ai-scheme-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* AI 模式切换 Tab */
+.ai-mode-tabs {
+    display: flex;
+    border-bottom: 1px solid #1a1a1a;
+    flex-shrink: 0;
+}
+
+.ai-mode-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #555;
+    font-size: 12px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+}
+
+.ai-mode-tab:hover {
+    color: #888;
+}
+
+.ai-mode-tab.active {
+    color: #a30a24;
+    border-bottom-color: #a30a24;
+}
+
+/* 图片模式 */
+.ai-image-mode {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ai-generate-images-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #6a3a8f;
+    color: #b060e0;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 0;
+}
+
+.ai-generate-images-btn:hover {
+    background: #6a3a8f;
+    color: #fff;
+}
+
+/* 图片画廊 */
+.ai-image-gallery-section {
+    margin-top: 16px;
+}
+
+.ai-image-gallery-section h3 {
+    font-size: 12px;
+    font-weight: normal;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 4px;
+}
+
+.ai-hint-small {
+    font-size: 11px;
+    color: #444;
+    margin: 0 0 10px;
+}
+
+.ai-image-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ai-image-card {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #1a1a1a;
+    transition: border-color 0.2s;
+}
+
+.ai-image-card:hover {
+    border-color: #6a3a8f;
+}
+
+.ai-image-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #111;
+}
+
+.ai-image-card-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 10px;
+    background: rgba(0,0,0,0.75);
+    color: #ccc;
+    font-size: 11px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+}
+
+.ai-image-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(106, 58, 143, 0);
+    transition: background 0.2s;
+    opacity: 0;
+}
+
+.ai-image-card:hover .ai-image-card-overlay {
+    background: rgba(106, 58, 143, 0.3);
+    opacity: 1;
+}
+
+.ai-image-card-overlay span {
+    color: #fff;
+    font-size: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 4px 12px;
+    border-radius: 2px;
+}
+
+/* 图片预览模态框 */
+.ai-image-preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.85);
+    cursor: pointer;
+}
+
+.ai-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1;
+}
+
+.ai-modal-content img {
+    max-width: 100%;
+    max-height: 75vh;
+    border: 1px solid #333;
+    display: block;
+}
+
+.ai-modal-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: #111;
+    border: 1px solid #333;
+    color: #888;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.ai-modal-close:hover {
+    background: #a30a24;
+    border-color: #a30a24;
+    color: #fff;
+}
+
+.ai-modal-actions {
+    text-align: center;
+}
+
+/* 分析中遮罩 */
+.ai-analyzing-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.ai-analyzing-box {
+    background: #111;
+    border: 1px solid #6a3a8f;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #b060e0;
+    font-size: 13px;
+}
+
+/* 加载动画 */
+.ai-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #333;
+    border-top-color: #a30a24;
+    border-radius: 50%;
+    animation: ai-spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes ai-spin {
+    to { transform: rotate(360deg); }
 }

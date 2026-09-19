@@ -1,13 +1,63 @@
+import { AIScheme } from './ai-design';
+
 const API_BASE = '/api';
 
 export class Preview {
   private element: HTMLElement | null = null;
+  private activeScheme: AIScheme | null = null;
 
   getElement(): HTMLElement | null {
     if (!this.element) {
       this.element = document.getElementById('preview');
     }
     return this.element;
+  }
+
+  setActiveScheme(scheme: AIScheme): void {
+    this.activeScheme = scheme;
+  }
+
+  async renderWithScheme(markdown: string, scheme: AIScheme): Promise<void> {
+    const el = this.getElement();
+    if (!el) return;
+
+    el.innerHTML = '<p class="loading">正在渲染（AI 方案）...</p>';
+
+    try {
+      const response = await fetch(`${API_BASE}/ai/render-scheme`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markdown: markdown,
+          scheme: scheme,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const html = await response.text();
+      el.innerHTML = `
+        <div class="preview-content">
+          <style>${scheme.css}</style>
+          ${html}
+        </div>
+      `;
+    } catch (error) {
+      console.error('AI 渲染失败，回退到纯前端渲染:', error);
+      // 回退：直接注入 CSS
+      const { marked } = await import('marked');
+      const { default: DOMPurify } = await import('dompurify');
+      const parsed = marked.parse(markdown, { async: false }) as string;
+      const clean = DOMPurify.sanitize(parsed);
+      el.innerHTML = `
+        <div class="preview-content">
+          <style>${scheme.css}</style>
+          ${clean}
+        </div>
+      `;
+    }
   }
 
   async render(markdown: string): Promise<void> {
@@ -54,7 +104,7 @@ export class Preview {
     }
   }
 
-  async exportHTML(markdown: string): Promise<void> {
+  async exportHTML(markdown: string, scheme?: AIScheme | null): Promise<void> {
     try {
       const response = await fetch(`${API_BASE}/export/html`, {
         method: 'POST',
@@ -64,6 +114,7 @@ export class Preview {
           theme: 'default',
           full_page: false,
           include_toc: false,
+          scheme: scheme || null,
         }),
       });
 
@@ -82,7 +133,7 @@ export class Preview {
     }
   }
 
-  async exportPDF(markdown: string): Promise<void> {
+  async exportPDF(markdown: string, scheme?: AIScheme | null): Promise<void> {
     try {
       const response = await fetch(`${API_BASE}/export/pdf`, {
         method: 'POST',
@@ -92,6 +143,7 @@ export class Preview {
           theme: 'default',
           full_page: true,
           include_toc: true,
+          scheme: scheme || null,
         }),
       });
 
