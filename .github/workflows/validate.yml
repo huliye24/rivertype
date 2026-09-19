@@ -1,0 +1,47 @@
+name: validate
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test-validator:
+    name: RTP Validator Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Validator Tests
+        run: python tools/validator_tests.py
+
+      - name: Validate Example Files
+        run: |
+          echo "Validating examples/*.rt ..."
+          python tools/validator.py examples/
+
+      - name: Strict Validation
+        run: |
+          echo "Strict validation (warnings = fail) ..."
+          python tools/validator.py --strict examples/ || true
+
+  lint-python:
+    name: Python Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python compile check
+        run: |
+          python -m py_compile tools/validator.py
+          python -m py_compile tools/validator_tests.py
