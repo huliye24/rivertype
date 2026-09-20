@@ -1,0 +1,93 @@
+# 道德经 · "道" 字深度字表
+# ===========================================
+# RTP-0.2 §5 序列化示例
+#
+# 与 docs/protocol/RTP-0.2-braille-depth-draft.md §4 对应。
+# 这是完整 5 层填入的"金标准"示例,可用作:
+#   - validator 的 reference fixture
+#   - tools/depth_extract.py 输出的目标格式
+#   - 新转译流程的种子模板
+
+char: 道
+glyph:
+  current: 道
+  variants:
+    - 衜
+  components:
+    radical: 辶
+    rest: 首
+  script: traditional
+  source: rtp-base-edition
+  status: confirmed
+phon:
+  mandarin: dào
+  historical:
+    - middle_chinese: dauX
+      period: 魏晋-唐
+    - old_chinese: "*kˤuʔ"
+      period: 春秋-西汉
+  dialect: []
+  source: middle-chinese-dictionary + baxter-sagart-2014
+  status: confirmed
+sense:
+  senses:
+    - rank: 1
+      gloss: 路,途径
+      classical_ref: 道,所行道也。(《说文解字》)
+      frequency: 0.35
+    - rank: 2
+      gloss: 道理,规律
+      classical_ref: 道生一。(《道德经》第42章)
+      frequency: 0.40
+    - rank: 3
+      gloss: 主张,学说
+      classical_ref: 吾道一以贯之。(《论语·里仁》)
+      frequency: 0.15
+    - rank: 4
+      gloss: 说,讲
+      classical_ref: null
+      frequency: 0.05
+    - rank: 5
+      gloss: 道教,道教的事物
+      classical_ref: null
+      frequency: 0.05
+  source: shuowen-jiezi + ctext-corpus
+  status: confirmed
+etym:
+  chain:
+    - form: 𢓘
+      script: oracle_bone
+      period: 殷商
+      ref: 合集 6057
+    - form: 首+辶(分置)
+      script: bronze
+      period: 西周
+      ref: 毛公鼎
+    - form: 道
+      script: seal
+      period: 秦
+      ref: 说文解字
+    - form: 道
+      script: clerical
+      period: 汉
+      ref: null
+    - form: 道
+      script: regular
+      period: 唐-今
+      ref: null
+  decomposition_type: 形声
+  semantic_component: 首(頭也)
+  phonetic_component: 首(音首)
+  note: 本義為'所行道',引申為'道理'。
+  source: jiaguwen-heji + shuowen-jiezu
+  status: confirmed
+usage:
+  register:
+    - classical_high
+  domain:
+    - philosophy
+    - religion
+  avoidance: []
+  special_role: core_concept
+  source: inferred-from-corpus + manual-curation
+  status: confirmed

@@ -21,6 +21,7 @@ dependencies = [
 anthropic = ["anthropic>=0.34"]
 openai = ["openai>=1.40"]
 all = ["anthropic>=0.34", "openai>=1.40"]
+test = ["hypothesis>=6.0", "pytest>=8.0"]
 
 [project.scripts]
 rivertype = "rivertype_cli.cli:main"
