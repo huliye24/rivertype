@@ -21,6 +21,7 @@
 | [`annotate.md`](./annotate.md)     | 校注、训诂、字源    | Step 5 A-1     |
 | [`vernacular.md`](./vernacular.md)  | 白话译          | Step 6 V-1     |
 | [`english.md`](./english.md)      | 英译           | Step 6 V-1     |
+| [`translate-philosophical.md`](./translate-philosophical.md) | 现代英语哲学 → 现代汉语 | 扩展方向    |
 | [`validate.md`](./validate.md)     | 校验输出是否合规    | Step 7 V-2     |
 | [`full.md`](./full.md)          | 一键转译(全流程)   | 完整流水线         |
 

@@ -38,15 +38,22 @@
 
 | 文件                                       | 用途       |
 |------------------------------------------|----------|
-| [README.md](./docs/prompts/README.md)   | Prompt 索引 |
-| [transcribe.md](./docs/prompts/transcribe.md)  | 转录原文     |
-| [punctuate.md](./docs/prompts/punctuate.md)   | 断句       |
-| [collate.md](./docs/prompts/collate.md)      | 校勘异文     |
-| [annotate.md](./docs/prompts/annotate.md)     | 校注       |
-| [vernacular.md](./docs/prompts/vernacular.md)  | 白话译      |
-| [english.md](./docs/prompts/english.md)      | 英译       |
-| [validate.md](./docs/prompts/validate.md)     | 校验       |
-| [full.md](./docs/prompts/full.md)          | 一键转译全流程  |
+| [README.md](./prompts/README.md)   | Prompt 索引 |
+| [transcribe.md](./prompts/transcribe.md)  | 转录原文     |
+| [punctuate.md](./prompts/punctuate.md)   | 断句       |
+| [collate.md](./prompts/collate.md)      | 校勘异文     |
+| [annotate.md](./prompts/annotate.md)     | 校注       |
+| [vernacular.md](./prompts/vernacular.md)  | 白话译      |
+| [english.md](./prompts/english.md)      | 英译       |
+| [translate-philosophical.md](./prompts/translate-philosophical.md) | 现代英语哲学 → 现代汉语(扩展) |
+| [validate.md](./prompts/validate.md)     | 校验       |
+| [full.md](./prompts/full.md)          | 一键转译全流程  |
+
+## 反思与设计日志(`docs/reflections/`)
+
+| 文件                                       | 用途       |
+|------------------------------------------|----------|
+| [2026-09-20-ai-native-software.md](./reflections/2026-09-20-ai-native-software.md) | 一次会话的默会知识 → Rivertype 协议的内化候选 |
 
 ## 其他文档
 

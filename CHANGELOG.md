@@ -4,6 +4,40 @@
 
 ---
 
+## [Unreleased · 0.1.x] · 现代译事扩展(2026-09-20)
+
+### Added
+
+- 反思与设计日志 `docs/reflections/2026-09-20-ai-native-software.md`
+  - 一次会话(韩炳哲《Saving Beauty》英译中)的默会知识清单
+  - 提出 Rivertype 作为"AI 原生软件"的边界扩展原则
+  - 提议的协议 / Prompt / 工具扩展路线图
+- Prompt `docs/prompts/translate-philosophical.md`
+  - 现代英语哲学 / 美学 / 人文散文 → 现代汉语(古典节奏)
+  - 与 `vernacular.md`、`english.md` 并列,补齐第三个翻译方向
+  - 含术语保留、概念加粗、古典节奏、书名候选机制等七大铁律
+- GLOSSARY 第六节"转译会话常用术语"
+  - 译文说明块(translational preamble block)
+  - 注释块(notes block)
+  - 术语保留(term retention)
+  - 概念加粗(concept emphasis)
+  - 古典节奏(classical cadence)
+  - 书名候选机制(title candidacy)
+
+### Changed
+
+- `INDEX.md` Prompt 索引新增 `translate-philosophical.md`;新增"反思与设计日志"区段
+- `docs/prompts/README.md` Prompt 索引新增 `translate-philosophical.md`
+
+### Proposed(待 RFC)
+
+- 协议扩展 `docs/protocol/RTP-0.2-draft.md` —— 新增 `chinese-philosophical` 区段
+- 工具扩展 `tools/build_epub.py` —— 译稿合订 EPUB 流水线
+- WORKFLOW 新增"现代外语 → 现代汉语"路径(Step T-0 至 T-3)
+- `examples/saving-beauty-cn/` —— 现代译事实例目录
+
+---
+
 ## [Unreleased] · 方向重塑
 
 ### Changed · BREAKING
