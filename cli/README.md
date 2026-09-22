@@ -3,15 +3,16 @@
 从扫描件到成书的出版流水线。工作单元是一本书目录（含 `book.yaml`）。
 
 ```bash
-pip install -e cli          # 或 pip install rivertype-cli
+python -m pip install -e ./cli  # 在仓库根目录运行
 rivertype --help
 ```
 
-## 六段流水线
+## 出版流水线
 
 ```text
 scans/*.pdf
   └─ rivertype render      -> pages/ + bands/ + manifest/pages.json（溯源清单）
+        ├─ rivertype preprocess -> preprocessed/（可选图像辅助，不自动替换工作带）
         └─ rivertype transcribe  -> transcript/*.md（存疑标【存疑:…】）
               └─ rivertype verify -> verify/（放大裁片 + 核验清单）
                     └─ rivertype assemble -> manuscript/（章节 + 主题 + vivliostyle 配置）
@@ -33,6 +34,7 @@ rivertype transcribe          # manual 引擎：生成 transcript/_queue.md 工�
 rivertype verify              # 生成存疑裁片，逐条裁决
 rivertype assemble            # 编辑 manuscript/chapters/01-body.md 成正式章节
 rivertype build               # 需要 npm i -g @vivliostyle/cli
+rivertype status . --json     # Agent 查询产物数量与建议下一步
 ```
 
 ## 转录引擎
@@ -67,3 +69,15 @@ collate:  { reference: 参照/通行本.md }
 
 内置 `guji-dark`（古卷·玄色：深色古卷、金色经文，源自文川院古籍转译工程）。
 自定义主题：含 `style.css` 的目录，放书目录 `theme/<name>/`，或任意路径传给 `build.theme`。
+
+## 供 Agent 调用
+
+```bash
+rivertype capabilities --json
+rivertype status path/to/book --json
+rivertype validate examples/道德经-第一章.rt
+```
+
+`capabilities` 和 `status` 返回单个 JSON 对象，遵守 [RPP-0.1](../docs/protocol/RPP-0.1.md)。其他阶段命令目前以退出码和约定文件作为机器接口。`validate` 的目标是 RTP `.rt` 文件；逐带 OCR 稿仍是 `.md`。
+
+图像预处理另装依赖：`python -m pip install -e './cli[preprocess]'`（从仓库根目录运行）。

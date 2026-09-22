@@ -7,7 +7,7 @@ name = "rivertype-cli"
 version = "0.1.0"
 description = "RiverType CLI — 从扫描件到成书的 AI 原生出版流水线（render / transcribe / verify / assemble / build / collate）"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "RiverType contributors" }]
 keywords = ["publishing", "epub", "vivliostyle", "guji", "ocr", "transcription", "chinese"]
@@ -20,7 +20,8 @@ dependencies = [
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.34"]
 openai = ["openai>=1.40"]
-all = ["anthropic>=0.34", "openai>=1.40"]
+all = ["anthropic>=0.34", "openai>=1.40", "numpy>=1.24", "opencv-python-headless>=4.8"]
+preprocess = ["numpy>=1.24", "opencv-python-headless>=4.8"]
 test = ["hypothesis>=6.0", "pytest>=8.0"]
 
 [project.scripts]

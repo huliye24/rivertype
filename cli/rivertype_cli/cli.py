@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from . import __version__
@@ -54,6 +55,23 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--reference", default=None, help="通行本文本（md/txt）")
     g.add_argument("--base", default=None, help="底本文本，默认 manuscript/chapters/")
 
+    g = sub.add_parser("validate", help="校验 .rt 文件是否符合 RTP-0.1 协议")
+    g.add_argument("target", help=".rt 文件或包含 .rt 的目录")
+    g.add_argument("--strict", action="store_true", help="严格模式：警告也返回非零退出码")
+
+    g = sub.add_parser("preprocess", help="扫描页图像预处理（裁色卡、纠斜、二值化）")
+    g.add_argument("project", nargs="?", default=".")
+    g.add_argument("--steps", nargs="+", choices=["bar", "deskew", "bin"], default=None)
+    g.add_argument("--bin-method", choices=["sauvola", "otsu"], default="sauvola")
+    g.add_argument("--force", action="store_true")
+
+    g = sub.add_parser("status", help="查询书项目与各阶段产物，供 Agent 判断下一步")
+    g.add_argument("project", nargs="?", default=".")
+    g.add_argument("--json", action="store_true", help="输出稳定的 JSON 对象")
+
+    g = sub.add_parser("capabilities", help="列出 CLI 协议、命令和机器接口")
+    g.add_argument("--json", action="store_true", help="输出稳定的 JSON 对象")
+
     return p
 
 
@@ -67,11 +85,34 @@ def main(argv: list[str] | None = None) -> None:
         print("下一步：把 PDF 放入 scans/，然后 rivertype render")
         return
 
+    if args.command == "validate":
+        from .validate import run_validate
+        from pathlib import Path
+        rc = run_validate(Path(args.target), strict=args.strict)
+        sys.exit(rc)
+
+    if args.command == "capabilities":
+        from .status import capabilities
+        payload = capabilities()
+        print(json.dumps(payload, ensure_ascii=False, indent=2) if args.json else
+              "RiverType: " + ", ".join(payload["commands"]))
+        return
+
     project = Project.load(args.project)
+
+    if args.command == "status":
+        from .status import project_status
+        payload = project_status(project)
+        print(json.dumps(payload, ensure_ascii=False, indent=2) if args.json else
+              f"{payload['title']} · 下一步：{payload['next_action']}")
+        return
 
     if args.command == "render":
         from .render import run_render
         run_render(project, dpi=args.dpi)
+    elif args.command == "preprocess":
+        from .preprocess import run_preprocess
+        run_preprocess(project, steps=args.steps, bin_method=args.bin_method, force=args.force)
     elif args.command == "transcribe":
         from .transcribe import run_transcribe
         run_transcribe(project, engine=args.engine, force=args.force, only=args.only)
