@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RiverType · 品牌与 UI</title>
+  <link rel="stylesheet" href="ui.css">
+  <style>
+    .showcase-banner { width: 100%; display: block; border-radius: 8px; }
+    .asset-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .asset-row img { width: 100%; display: block; border: 1px solid var(--rt-line); border-radius: 8px; }
+    .asset-row figcaption { padding-top: 8px; color: var(--rt-muted); font-size: 13px; }
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 22px 0; }
+    .flow span { padding: 9px 13px; border: 1px solid var(--rt-line); border-radius: 5px; background: white; font-size: 13px; }
+    .flow b { color: var(--rt-gold); }
+    .swatches { display: flex; flex-wrap: wrap; gap: 14px; }
+    .swatch { min-width: 160px; font-size: 12px; color: var(--rt-muted); }
+    .swatch i { display: block; height: 72px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 6px; }
+    .demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media(max-width: 720px) { .asset-row, .demo { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="rt-shell">
+    <nav class="rt-nav" aria-label="主导航">
+      <a class="rt-nav__brand" href="../README.md"><img src="assets/app-icon.png" alt="">RiverType</a>
+      <div class="rt-nav__links"><a href="#identity">品牌</a><a href="#workflow">流程</a><a href="#components">组件</a></div>
+    </nav>
+    <main>
+      <section class="rt-hero">
+        <div class="rt-eyebrow">From source to edition</div>
+        <h1>让古籍循河而来，<br>以新版本继续流传。</h1>
+        <p>从底本影像、OCR 与校勘，到转译文本和可出版的 EPUB。RiverType 为人和 Agent 提供同一套清晰的出版语言。</p>
+        <div class="rt-actions"><a class="rt-button" href="../cli/README.md">查看 CLI</a><a class="rt-button rt-button--outline" href="../docs/protocol/RPP-0.1.md">阅读协议</a></div>
+      </section>
+      <section class="rt-section" id="identity">
+        <h2 class="rt-section__title">识别系统</h2><p class="rt-section__intro">龙纹沿用原标志。字标、纸墨底色与河纹为不同媒介提供统一而克制的应用。</p>
+        <img class="showcase-banner" src="assets/github-header.png" alt="RiverType 宽屏品牌横幅">
+        <div class="asset-row">
+          <figure><img src="assets/lockup-dark.png" alt="深色横版标志"><figcaption>深色横版</figcaption></figure>
+          <figure><img src="assets/lockup-light.png" alt="浅色横版标志"><figcaption>浅色横版</figcaption></figure>
+        </div>
+      </section>
+      <section class="rt-section" id="workflow">
+        <div class="rt-eyebrow">Publishing protocol</div><h2 class="rt-section__title">一条可核验的出版流水线</h2>
+        <div class="flow"><span>扫描底本</span><b>→</b><span>OCR 识别</span><b>→</b><span>存疑校勘</span><b>→</b><span>转译编排</span><b>→</b><span>EPUB 交付</span></div>
+        <div class="rt-grid">
+          <article class="rt-card"><div class="rt-card__index">01 / SOURCE</div><h3>保留来处</h3><p>记录底本、页码与识别依据，让每段文字都能回溯。</p></article>
+          <article class="rt-card"><div class="rt-card__index">02 / REVIEW</div><h3>标记存疑</h3><p>把异文、缺字和判断交给可见的校勘环节。</p></article>
+          <article class="rt-card"><div class="rt-card__index">03 / EDITION</div><h3>形成版本</h3><p>将文本、注释与样式编排为跨设备阅读的成书。</p></article>
+        </div>
+      </section>
+      <section class="rt-section" id="components">
+        <h2 class="rt-section__title">界面组件</h2><p class="rt-section__intro">面向出版工作台的基础视觉语言：少量朱砂作行动点，主要阅读面保持纸白。</p>
+        <div class="demo">
+          <div class="rt-card"><h3>项目状态</h3><p style="margin-bottom:18px">《道德经》校订版 · 第二轮校勘</p><div class="rt-actions"><span class="rt-status rt-status--pending">待识别</span><span class="rt-status rt-status--review">待复核</span><span class="rt-status rt-status--ready">可出版</span></div><div class="rt-actions"><button class="rt-button">构建 EPUB</button><button class="rt-button rt-button--outline">查看校勘</button></div></div>
+          <div class="rt-card"><h3>新建书目</h3><label for="book-title">书名</label><input class="rt-field" id="book-title" value="道德经" aria-label="书名"><p style="margin-top:12px">底本信息与授权状态应在正式出版前核实。</p></div>
+        </div>
+      </section>
+      <section class="rt-section"><div class="rt-panel"><div class="rt-eyebrow" style="color:var(--rt-gold)">Agent-ready CLI</div><h2>协议既是格式，也是可执行的工作约定。</h2><p>在书目目录中执行：</p><div class="rt-code">rivertype build</div></div></section>
+      <section class="rt-section"><h2 class="rt-section__title">色彩</h2><div class="swatches"><div class="swatch"><i style="background:#111715"></i>墨色 · #111715</div><div class="swatch"><i style="background:#F8F5ED"></i>纸色 · #F8F5ED</div><div class="swatch"><i style="background:#8F101C"></i>朱砂 · #8F101C</div><div class="swatch"><i style="background:#B4975D"></i>古金 · #B4975D</div></div></section>
+    </main>
+  </div>
+</body>
+</html>

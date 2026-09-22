@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo/logo.jpg" alt="RiverType 龙与河流标志" width="240" />
+  <img src="brand/assets/github-header.png" alt="RiverType · 古籍转译与出版协议" width="100%" />
 </p>
 
 # RiverType · AI 原生古籍出版协议与 CLI
@@ -9,6 +9,8 @@
 RiverType 把中国古籍从扫描底本转成可核验、可编辑、可出版的 EPUB。它提供两层约定：**RTP** 规定一段古籍转译的结构，**RPP** 规定一本书的文件目录、阶段产物与 Agent 调用方式。CLI 执行 OCR 辅助、存疑核验、校勘、二次排版和构建。
 
 [出版流程协议 RPP](docs/protocol/RPP-0.1.md) · [转译文本协议 RTP](docs/protocol/RTP-0.1.md) · [书目录规范](SPEC.md) · [CLI 说明](cli/README.md) · [示例书](examples/guji-book/)
+
+[品牌标志与 UI 组件](brand/README.md)
 
 ## 当前能力
 
