@@ -25,8 +25,40 @@ RiverType 把中国古籍从扫描底本转成可核验、可编辑、可出版�
 | 二次排版 | `assemble` | 转录稿 → `manuscript/` 与 Vivliostyle 工程 |
 | 出版构建 | `build` | 排版工程 → EPUB / PDF |
 | 协议校验 | `validate` | `.rt` → RTP 诊断与退出码 |
+| 数字原稿导入 | `import-tex` | LaTeX 论文 → `manuscript/chapters/*.md` |
+| EPUB 成品检查 | `check` | EPUB → 结构、导航、链接和 EPUBCheck 结果 |
 
 `transcribe` 支持人工队列、Anthropic、OpenAI 和本地 Ollama 视觉模型。AI 的识别结果只是待核稿；底本图像、存疑标记和校勘记录始终保留。`preprocess` 是可选图像辅助，目前不会自动替换 `transcribe` 所读的工作带。
+
+## RiverType Studio（A4 可视化出版工作台）
+
+`cli/` 处理的是「扫描件 → 成书」；**Studio** 处理的是定稿之后的那一步：把已经校勘好的文字排成可付印的版面。
+
+浏览器打开 `studio.html`（`/` 仍是原来的 Markdown 编辑器）。三栏工作区：**素材与内容块 / A4 实际比例画布 / 版式属性**。
+
+| 能力 | 说明 |
+| --- | --- |
+| 分页版面 | A4 竖版 210×297mm，画布按实际比例显示，带出血与安全区标线 |
+| 内容块 | 标题、诗歌、正文、图片、说明、页眉、页脚、NFC / 二维码、分隔线 |
+| 结构化重排 | 拖动或上下移动块，不靠绝对坐标堆砌 |
+| 版式属性 | 字体、字号、行高、字距、字重、颜色、对齐、宽度、段距、分栏、竖排、透明度、整页出血 |
+| 可版本化 | 项目 = `project.json` + `content/*.md` + `assets/`，打包为单文件 `.rtsz`（ZIP） |
+| 文字永远可编辑 | 整页永不栅格化；导出的是 HTML/CSS 分页版面，文字可选中 |
+| PDF | HTML/CSS 分页版面交给 **Vivliostyle**（与 CLI `build` 同引擎），可断言恰为 N 页 A4 |
+| 移动版 | 同一份内容生成独立移动版网页，含音频 / 短片位与二维码备用入口 |
+| 缺失素材 | 一律登记为 `placeholder`，成品上保留可见占位框——**不用假素材顶替** |
+
+```bash
+npm install
+npm run studio:service     # 终端 A：排版服务（:3000，Vivliostyle）
+npm run dev                # 终端 B：打开 http://localhost:5173/studio.html
+
+npm run studio:verify      # 自动化验收：PDF 页数/尺寸/字体/可选中文字/溢出/二维码真解码
+```
+
+无 AI key、无排版服务时，Studio 的编辑、保存、重开、导出工程目录、生成移动版网页全部可用；导出 PDF 会降级为浏览器打印对话框。
+
+格式规范见 [RSP-0.1](docs/studio/RSP-0.1.md)，集成审计见 [STUDIO-0.1-AUDIT](docs/studio/STUDIO-0.1-AUDIT.md)，实测报告见 [STUDIO-0.1-REPORT](docs/studio/STUDIO-0.1-REPORT.md)。
 
 ## 快速开始
 
@@ -73,6 +105,10 @@ book.yaml → scans/ → pages/ + bands/ → transcript/ → verify/
 cli/                  Python CLI、内置主题与测试
 docs/protocol/        RTP 文本协议、RPP 出版流程协议
 docs/prompts/         分步转译提示词
+docs/studio/          RSP 项目格式、集成审计、验收报告
+src/studio/           Studio 工作区（渲染器 / 项目格式 / QR / 移动版 / 界面）
+backend/              legacy Go 后端 + studio-service.mjs（零依赖排版服务）
+tools/                RTP 校验器、Studio PDF 取证与自动化验收
 examples/             .rt 示例与书项目模板
 logo/                 RiverType 标志
 themes/               外置主题示例
@@ -86,6 +122,7 @@ output/               本地生成物（Git 忽略）
 
 - [RTP-0.1](docs/protocol/RTP-0.1.md)：单篇 `.rt` 的原文、断句、异文、校注、白话译等区段。
 - [RPP-0.1](docs/protocol/RPP-0.1.md)：从底本扫描到 EPUB 的目录、命令与 Agent 交接规则。
+- [RSP-0.1](docs/studio/RSP-0.1.md)：Studio 项目格式（版面即结构化数据，文字永远可编辑）。
 - [设计说明](DESIGN.md) · [路线图](ROADMAP.md) · [贡献指南](CONTRIBUTING.md)
 
 CLI 包元数据当前声明 MIT；正式许可证文本尚待仓库维护者确认并加入。

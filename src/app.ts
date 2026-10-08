@@ -36,6 +36,7 @@ export class App {
         <div class="brand">
           <h1 class="logo">${config.brand}</h1>
           <span class="slogan">${config.slogan}</span>
+          <a class="slogan" href="/studio.html" title="A4 可视化出版工作台">Studio →</a>
         </div>
         <div class="toolbar-right" id="toolbar"></div>
       </header>

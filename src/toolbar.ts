@@ -18,7 +18,7 @@ export class Toolbar {
 
   mount(container: HTMLElement): void {
     this.container = container;
-    container.innerHTML = `
+    this.container.innerHTML = `
       <button class="btn" data-action="new">新建</button>
       <button class="btn" data-action="open">打开</button>
       <button class="btn" data-action="save">保存</button>

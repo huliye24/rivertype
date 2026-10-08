@@ -35,3 +35,7 @@ output/**
 *.rt.bak
 test_output.txt
 out.txt
+
+# RiverType Studio
+studio-out/
+tmp/npm-cache/
