@@ -16,6 +16,20 @@
 | 成品 PDF | Vivliostyle 排版 → PyMuPDF 逐页检查 | 页数、210×297mm、文字层、嵌入字体、越界、页图 |
 | 成品里的二维码 | OpenCV 对 300dpi 渲染页做**独立解码** | 自写 QR 编码器是对的——用别人的解码器读，而不是读回自己的数据结构 |
 
+## 证据
+
+| 文件 | 是什么 |
+| --- | --- |
+| [`assets/studio-workspace.png`](./assets/studio-workspace.png) | 三栏工作区（素材与内容块 / A4 画布 / 版式属性），含安全区与出血标线 |
+| [`assets/canvas-front.png`](./assets/canvas-front.png) | 画布上的正面（封面）：封面艺术图占位框 + 书名 + 期号 |
+| [`assets/canvas-back.png`](./assets/canvas-back.png) | 画布上的背面：双栏正文、诗歌、内页插画占位、NFC 区 |
+| [`assets/pdf-page-01.png`](./assets/pdf-page-01.png) | **成品 PDF 第 1 页**（PyMuPDF 150dpi 渲染） |
+| [`assets/pdf-page-02.png`](./assets/pdf-page-02.png) | **成品 PDF 第 2 页**（含矢量二维码与占位框） |
+| [`assets/mobile-page.png`](./assets/mobile-page.png) | 移动版网页（音频 / 短片占位 + 二维码备用入口） |
+| [`assets/wenchuan-01.pdf`](./assets/wenchuan-01.pdf) | 成品 PDF 原件：2 页 A4，文字可选中，二维码可扫 |
+
+这些文件由 `npm run studio:verify` 的产物复制而来；重新跑一次验收即可再生成一份。
+
 ---
 
 # 报告正文
