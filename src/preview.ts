@@ -114,7 +114,8 @@ export class Preview {
           theme: 'default',
           full_page: false,
           include_toc: false,
-          scheme: scheme || null,
+          // 未显式传入时沿用当前已应用的方案（setActiveScheme 设定）
+          scheme: scheme ?? this.activeScheme,
         }),
       });
 
@@ -143,7 +144,7 @@ export class Preview {
           theme: 'default',
           full_page: true,
           include_toc: true,
-          scheme: scheme || null,
+          scheme: scheme ?? this.activeScheme,
         }),
       });
 
